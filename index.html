@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Haidar Connect </title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: honeydew;
+      color: #333;
+    }
+    header {
+      background-color: violet;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    .container {
+      padding: 2rem;
+      max-width: 900px;
+      margin: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 1rem;
+      text-align: left;
+    }
+    select, input, textarea, button {
+      width: 100%;
+      padding: 0.75rem;
+      margin: 0.5rem 0 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .whatsapp-float {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #25d366;
+      color: white;
+      border-radius: 50px;
+      padding: 15px 20px;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Haidar Connect</h1>
+    <h1>Smart NIN Services</h1>
+    <p>Trusted and fast NIN modification, enrollment & printing</p>
+  </header>
+
+  <div class="container">
+    <h2>📋 List of Services</h2>
+    <ul>
+      <li>Change of Name</li>
+      <br>
+       <li>Change of Date of Birth</li>
+       <br>
+      <li>Correction of Address / Gender / Phone</li>
+      <br>
+      <li>Adult & Child NIN Enrollment</li>
+      <br>
+      <li>Premium & Plastic NIN Print</li>
+      <br>
+      <li>NIN-SIM Linking</li>
+    </ul>
+
+    <h2>💰 Service Prices</h2>
+    <table>
+      <thead>
+        <tr><th>Service</th><th>Price (₦)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Change of Name</td><td>₦8,000</td></tr>
+        <tr><td>Change of Date of Birth</td><td>₦45,000</td></tr>
+        <tr><td>Change of Address</td><td>₦8,000</td></tr>
+        <tr><td>Change of Phone Number</td><td>₦8,000</td></tr>
+        <tr><td>Adult NIN Enrollment</td><td>₦3,500</td></tr>
+        <tr><td>Child NIN Enrollment</td><td>₦3,500</td></tr>
+        <tr><td>Print Premium NIN</td><td>₦2,500</td></tr>
+        <tr><td>Plastic NIN Card</td><td>₦3,000</td></tr>
+      </tbody>
+    </table>
+
+    <h2>📝 Request a Service</h2>
+    <form id="serviceForm">
+      <label for="service">Select Service</label>
+      <select id="service" name="service">
+        <option value="">-- Choose a service --</option>
+        <option value="change_name">Change of Name</option>
+        <option value="change_dob">Change of Date of Birth</option>
+        <option value="change_phone">Change of Phone Number</option>
+        <option value="print_nin">Print NIN</option>
+        <option value="enrollment">NIN Enrollment</option>
+      </select>
+
+      <div id="formDetails"></div>
+
+      <button type="submit">Submit Request</button>
+    </form>
+  </div>
+
+  <a class="whatsapp-float" href="#" id="whatsappLink" target="_blank">Need Help? Chat on WhatsApp</a>
+
+  <script>
+    const formDetails = document.getElementById("formDetails");
+    const serviceSelect = document.getElementById("service");
+    const form = document.getElementById("serviceForm");
+    const whatsapp = document.getElementById("whatsappLink");
+
+    const updateForm = (value) => {
+      let html = "";
+      if (value === "change_name") {
+        html = `
+          <input type="text" placeholder="NIN Number" name="nin">
+          <input type="text" placeholder="First Name" name="firstName">
+          <input type="text" placeholder="Middle Name" name="middleName">
+          <input type="text" placeholder="Last Name" name="lastName">
+        `;
+      } else if (value === "change_dob") {
+        html = `
+          <input type="text" placeholder="Old Date of Birth" name="oldDob">
+          <input type="text" placeholder="New Date of Birth" name="newDob">
+        `;
+      } else if (value === "change_phone") {
+        html = `
+          <input type="text" placeholder="Old Phone Number" name="oldPhone">
+          <input type="text" placeholder="New Phone Number" name="newPhone">
+        `;
+      } else if (value === "print_nin") {
+        html = `<input type="text" placeholder="NIN Number to Print" name="printNin">`;
+      } else if (value === "enrollment") {
+        html = `
+          <input type="text" placeholder="Full Name" name="fullName">
+          <input type="text" placeholder="Date of Birth" name="dob">
+          <input type="text" placeholder="Gender" name="gender">
+          <input type="text" placeholder="Phone Number" name="phone">
+          <input type="text" placeholder="Address" name="address">
+        `;
+      }
+      formDetails.innerHTML = html;
+    };
+
+    serviceSelect.addEventListener("change", (e) => updateForm(e.target.value));
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      let message = `Service: ${serviceSelect.options[serviceSelect.selectedIndex].text}\n`;
+      for (let [key, val] of formData.entries()) {
+        message += `${key}: ${val}\n`;
+      }
+      const encodedMsg = encodeURIComponent(message);
+      window.open(`https://wa.me/2349158314908?text=${encodedMsg}`, "_blank");
+    });
+  </script>
+</body>
+</html>
